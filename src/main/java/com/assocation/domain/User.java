@@ -13,9 +13,10 @@ public class User {
     private String userAssocation;//所属社团
     private String userPhone;//联系电话
     private String userPassword;//登录密码
+    private String userRePassword;//重复登录密码
     private Identity userIdentity;//用户身份
 
-    public User(String userId, String userName, Sex userSex, String userGrade, String userClass, String userCollege, String userAssocation, String userPhone, String userPassword, Identity userIdentity) {
+    public User(String userId, String userName, Sex userSex, String userGrade, String userClass, String userCollege, String userAssocation, String userPhone, String userPassword, String userRePassword,Identity userIdentity) {
         this.userId = userId;
         this.userName = userName;
         this.userSex = userSex;
@@ -25,6 +26,7 @@ public class User {
         this.userAssocation = userAssocation;
         this.userPhone = userPhone;
         this.userPassword = userPassword;
+        this.userRePassword = userRePassword;
         this.userIdentity = userIdentity;
     }
 
@@ -74,6 +76,14 @@ public class User {
 
     public void setUserCollege(String userCollege) {
         this.userCollege = userCollege;
+    }
+
+    public String getUserRePassword() {
+        return userRePassword;
+    }
+
+    public void setUserRePassword(String userRePassword) {
+        this.userRePassword = userRePassword;
     }
 
     public String getUserAssocation() {

@@ -8,10 +8,10 @@ import java.util.List;
 
 public interface AssocationService {
 
-    List<Assocation> findAll();
+    List<Assocation> findAllAsso();
 
     //多条件模糊查询（社团名+社团状态+社团等级）
-    List<Assocation> findByMultiCons(String assoName, Status assoStatus, Rank assoRank);
+    List<Assocation> findAssoByMultiCons(String assoName, Status assoStatus, Rank assoRank);
 
     void addAssocation(Assocation assocation) throws Exception;
 

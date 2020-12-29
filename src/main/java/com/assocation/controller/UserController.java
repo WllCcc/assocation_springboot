@@ -75,13 +75,6 @@ public class UserController {
         return mv;
     }
 
-    @RequestMapping("/deleteUserById")
-    public String deleteUserById(@RequestParam(name = "id") String userId) throws Exception{
-        System.out.println("通过用户id删除指定用户.");
-        userService.deleteUserById(userId);
-        return "redirect:findAll";
-    }
-
     @RequestMapping("/findByNameAndIdentity")
     public ModelAndView findByNameAndIdentity(String userName,Identity userIdentity){
         System.out.println("通过用户名+用户身份模糊查询匹配用户.");
@@ -92,28 +85,60 @@ public class UserController {
         return mv;
     }
 
+    @RequestMapping("/deleteUserById")
+    public String deleteUserById(@RequestParam(name = "id") String userId,ModelMap model,HttpServletResponse response) throws Exception{
+        System.out.println("通过用户id删除指定用户.");
+        try {
+            User user = (User) model.get("userInfo");
+            if(Identity.ADMIN.equals(user.getUserIdentity())){
+                userService.deleteUserById(userId);
+            }else{
+                response.getWriter().write("<script>alert('非管理员无权限进行该操作!')<script>");
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+            throw new SysException("删除指定用户失败.");
+        }
+        return "redirect:findAll";
+    }
+
     @RequestMapping("/addUser")
     public ModelAndView addUser(User user, HttpServletResponse response) throws Exception {
         System.out.println("添加用户.");
         ModelAndView mv = new ModelAndView();
-        if(!user.getUserPassword().equals(user.getUserRePassword())){
-            response.getWriter().write("<script>alert('两次密码不一致')<script>");
+        if(Identity.ADMIN.equals(user.getUserIdentity())){
+            if(!user.getUserPassword().equals(user.getUserRePassword())){
+                response.getWriter().write("<script>alert('两次密码不一致')<script>");
+                mv.setViewName("userAdd");
+                return mv;
+            }
+            try {
+                userService.addUser(user);
+            }catch (Exception e){
+                e.printStackTrace();
+                throw new SysException("添加用户失败.");
+            }
+        }else{
+            response.getWriter().write("<script>alert('非管理员无权限进行该操作!')<script>");
             mv.setViewName("userAdd");
             return mv;
         }
-        userService.addUser(user);
-        mv.setViewName("findAll");
+        mv.setViewName("userList");
         return mv;
     }
 
     @RequestMapping("/updateUser")
-    public String updateUser(User user) throws Exception {
+    public String updateUser(User user,HttpServletResponse response) throws Exception {
         System.out.println("更新用户信息.");
-        try {
-            userService.updateUser(user);
-        }catch (Exception e){
-            e.printStackTrace();
-            throw new SysException("更新用户信息出错.");
+        if(Identity.ADMIN.equals(user.getUserIdentity())){
+            try {
+                userService.updateUser(user);
+            }catch (Exception e){
+                e.printStackTrace();
+                throw new SysException("更新用户信息出错.");
+            }
+        }else{
+            response.getWriter().write("<script>alert('非管理员无权限进行该操作!')<script>");
         }
         return "redirect:findAll";
     }

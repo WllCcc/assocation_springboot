@@ -6,19 +6,25 @@ import java.util.Date;
  *  社团创建审批
  */
 public class EstApproval {
-    private String assocationId;//审批社团编号
-    private String assocationName;//审批社团名称
-    private String assocationSynopsis;//审批社团简介
+    private String assocationId;//社团编号
+    private String assocationName;//社团名称
+    private String assocationSynopsis;//社团简介
+    private String assocationCategory;//社团类别
+    private String assocationStatus;//社团状态
+    private String assocationRank;//社团等级
     private Date applicationDate;//申请时间
     private Date approvalDate;//审批时间
-    private ApprovalStatus status;//审批状态（同意/不同意）
+    private String status;//审批状态（等待审批/同意/不同意）
     private String applyId;//申请人编号
     private String approvalId;//审批人编号
 
-    public EstApproval(String assocationId, String assocationName, String assocationSynopsis, Date applicationDate, Date approvalDate, ApprovalStatus status, String applyId, String approvalId) {
+    public EstApproval(String assocationId, String assocationName, String assocationSynopsis, String assocationCategory, String assocationStatus, String assocationRank, Date applicationDate, Date approvalDate, String status, String applyId, String approvalId) {
         this.assocationId = assocationId;
         this.assocationName = assocationName;
         this.assocationSynopsis = assocationSynopsis;
+        this.assocationCategory = assocationCategory;
+        this.assocationStatus = assocationStatus;
+        this.assocationRank = assocationRank;
         this.applicationDate = applicationDate;
         this.approvalDate = approvalDate;
         this.status = status;
@@ -50,6 +56,30 @@ public class EstApproval {
         this.assocationSynopsis = assocationSynopsis;
     }
 
+    public String getAssocationCategory() {
+        return assocationCategory;
+    }
+
+    public void setAssocationCategory(String assocationCategory) {
+        this.assocationCategory = assocationCategory;
+    }
+
+    public String getAssocationStatus() {
+        return assocationStatus;
+    }
+
+    public void setAssocationStatus(String assocationStatus) {
+        this.assocationStatus = assocationStatus;
+    }
+
+    public String getAssocationRank() {
+        return assocationRank;
+    }
+
+    public void setAssocationRank(String assocationRank) {
+        this.assocationRank = assocationRank;
+    }
+
     public Date getApplicationDate() {
         return applicationDate;
     }
@@ -66,11 +96,11 @@ public class EstApproval {
         this.approvalDate = approvalDate;
     }
 
-    public ApprovalStatus getStatus() {
+    public String getStatus() {
         return status;
     }
 
-    public void setStatus(ApprovalStatus status) {
+    public void setStatus(String status) {
         this.status = status;
     }
 

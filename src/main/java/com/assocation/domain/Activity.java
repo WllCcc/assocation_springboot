@@ -8,16 +8,18 @@ import java.util.Date;
 public class Activity {
     private String activityId;//活动编号
     private String assocationId;//社团编号
+    private String activityName;//活动名称
     private String activityTheme;//活动主题
     private String activityContent;//活动内容
-    private String activityNumber;//活动人数
+    private Integer activityNumber;//活动人数
     private Date activityDate;//活动日期
     private String activityLocation;//活动地点
-    private String activityCost;//所用经费
+    private Double activityCost;//预期经费
 
-    public Activity(String activityId, String assocationId, String activityTheme, String activityContent, String activityNumber, Date activityDate, String activityLocation, String activityCost) {
+    public Activity(String activityId, String assocationId, String activityName, String activityTheme, String activityContent, Integer activityNumber, Date activityDate, String activityLocation, Double activityCost) {
         this.activityId = activityId;
         this.assocationId = assocationId;
+        this.activityName = activityName;
         this.activityTheme = activityTheme;
         this.activityContent = activityContent;
         this.activityNumber = activityNumber;
@@ -42,6 +44,14 @@ public class Activity {
         this.assocationId = assocationId;
     }
 
+    public String getActivityName() {
+        return activityName;
+    }
+
+    public void setActivityName(String activityName) {
+        this.activityName = activityName;
+    }
+
     public String getActivityTheme() {
         return activityTheme;
     }
@@ -58,11 +68,11 @@ public class Activity {
         this.activityContent = activityContent;
     }
 
-    public String getActivityNumber() {
+    public Integer getActivityNumber() {
         return activityNumber;
     }
 
-    public void setActivityNumber(String activityNumber) {
+    public void setActivityNumber(Integer activityNumber) {
         this.activityNumber = activityNumber;
     }
 
@@ -82,11 +92,11 @@ public class Activity {
         this.activityLocation = activityLocation;
     }
 
-    public String getActivityCost() {
+    public Double getActivityCost() {
         return activityCost;
     }
 
-    public void setActivityCost(String activityCost) {
+    public void setActivityCost(Double activityCost) {
         this.activityCost = activityCost;
     }
 }

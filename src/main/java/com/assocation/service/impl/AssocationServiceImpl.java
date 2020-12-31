@@ -1,10 +1,10 @@
 package com.assocation.service.impl;
 
 import com.assocation.dao.AssocationDao;
+import com.assocation.domain.ActivityApproval;
 import com.assocation.domain.Assocation;
-import com.assocation.domain.Rank;
-import com.assocation.domain.Status;
 import com.assocation.service.AssocationService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -16,6 +16,7 @@ public class AssocationServiceImpl implements AssocationService {
 
     AssocationDao assocationDao;
 
+    @Autowired
     public void setAssocationDao(AssocationDao assocationDao) {
         this.assocationDao = assocationDao;
     }
@@ -26,13 +27,23 @@ public class AssocationServiceImpl implements AssocationService {
     }
 
     @Override
-    public List<Assocation> findAssoByMultiCons(String assoName, Status assoStatus, Rank assoRank) {
+    public List<Assocation> findAssoById(String assoId) {
+        return assocationDao.findAssoById(assoId);
+    }
+
+    @Override
+    public String findAssoIdByName(String assoName) {
+        return assocationDao.findAssoIdByName(assoName);
+    }
+
+    @Override
+    public List<Assocation> findAssoByMultiCons(String assoName, String assoStatus, String assoRank) {
         return assocationDao.findAssoByMultiCons(assoName,assoStatus,assoRank);
     }
 
     @Override
-    public void addAssocation(Assocation assocation) throws Exception {
-        assocationDao.addAssocation(assocation);
+    public void applyAssoAct(ActivityApproval actApproval) throws Exception {
+        assocationDao.applyAssoAct(actApproval);
     }
 
     @Override

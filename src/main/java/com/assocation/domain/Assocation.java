@@ -17,10 +17,10 @@ public class Assocation {
     @DateTimeFormat(pattern = "yyyy-mm-dd")
     private Date assocationEstabDate;//成立时间
 
-    private Status assocationStatus;//社团状态
-    private Rank assocationRank;//社团等级
+    private String assocationStatus;//社团状态
+    private String assocationRank;//社团等级
 
-    public Assocation(String assocationId, String assocationName, String assocationSynopsis, String assocationChargeId, String assocationCategory, Date assocationEstabDate, Status assocationStatus, Rank assocationRank) {
+    public Assocation(String assocationId, String assocationName, String assocationSynopsis, String assocationChargeId, String assocationCategory, Date assocationEstabDate, String assocationStatus, String assocationRank) {
         this.assocationId = assocationId;
         this.assocationName = assocationName;
         this.assocationSynopsis = assocationSynopsis;
@@ -79,19 +79,19 @@ public class Assocation {
         this.assocationEstabDate = assocationEstabDate;
     }
 
-    public Status getAssocationStatus() {
+    public String getAssocationStatus() {
         return assocationStatus;
     }
 
-    public void setAssocationStatus(Status assocationStatus) {
+    public void setAssocationStatus(String assocationStatus) {
         this.assocationStatus = assocationStatus;
     }
 
-    public Rank getAssocationRank() {
+    public String getAssocationRank() {
         return assocationRank;
     }
 
-    public void setAssocationRank(Rank assocationRank) {
+    public void setAssocationRank(String assocationRank) {
         this.assocationRank = assocationRank;
     }
 }

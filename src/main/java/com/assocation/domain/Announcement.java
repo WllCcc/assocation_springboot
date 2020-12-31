@@ -12,9 +12,9 @@ public class Announcement {
     private Date annoStartDate;//公告起始时间
     private Date annoEndDate;//公告结束时间
     private String annoContent;//公告内容
-    private AnnouncementStatus annoStatus;//公告状态（有效/失效）
+    private String annoStatus;//公告状态（有效/失效）
 
-    public Announcement(String annoId, String annoTitle, String annoTitleColor, Date annoStartDate, Date annoEndDate, String annoContent, AnnouncementStatus annoStatus) {
+    public Announcement(String annoId, String annoTitle, String annoTitleColor, Date annoStartDate, Date annoEndDate, String annoContent, String annoStatus) {
         this.annoId = annoId;
         this.annoTitle = annoTitle;
         this.annoTitleColor = annoTitleColor;
@@ -72,11 +72,11 @@ public class Announcement {
         this.annoContent = annoContent;
     }
 
-    public AnnouncementStatus getAnnoStatus() {
+    public String getAnnoStatus() {
         return annoStatus;
     }
 
-    public void setAnnoStatus(AnnouncementStatus annoStatus) {
+    public void setAnnoStatus(String annoStatus) {
         this.annoStatus = annoStatus;
     }
 }

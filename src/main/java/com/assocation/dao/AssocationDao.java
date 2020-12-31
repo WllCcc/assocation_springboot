@@ -1,8 +1,7 @@
 package com.assocation.dao;
 
+import com.assocation.domain.ActivityApproval;
 import com.assocation.domain.Assocation;
-import com.assocation.domain.Rank;
-import com.assocation.domain.Status;
 import org.apache.ibatis.annotations.*;
 import org.springframework.stereotype.Repository;
 
@@ -15,13 +14,19 @@ public interface AssocationDao {
     @Select("select * from assocation")
     List<Assocation> findAllAsso();
 
+    @Select("select * from assocation where asso_id = #{assoId}")
+    List<Assocation> findAssoById(@Param("assoId") String assoId);
+
+    @Select("select asso_id from assocation where asso_name = #{assoName}")
+    String findAssoIdByName(@Param("assoName") String assoName);
+
     //多条件模糊查询（社团名+社团状态+社团等级）
     @Select({"<script> SELECT * from assocation"
             +"<where>"
             +"<if test = \"asso_name != null and asso_name != ''\"> asso_name like CONCAT('%',#{assoName},'%')</if>"
             +"<if test = \"asso_status != null and asso_status != ''\"> asso_status = #{assoStatus}</if>"
             +"<if test = \"asso_rank != null and asso_rank != ''\"> asso_rank = #{assoRank}</if></where></script>"})
-    List<Assocation> findAssoByMultiCons(@Param("assoName") String assoName, @Param("assoStatus") Status assoStatus, @Param("assoRank") Rank assoRank);
+    List<Assocation> findAssoByMultiCons(@Param("assoName") String assoName, @Param("assoStatus") String assoStatus, @Param("assoRank") String assoRank);
 
     //添加社团
     @Insert("insert into assocation(asso_id,asso_name,asso_synopsis,asso_charge_id,asso_category,asso_est_date,asso_status,asso_rank) "
@@ -30,10 +35,15 @@ public interface AssocationDao {
 
     //删除社团
     @Delete("delete from assocation where asso_id = #{assoId}")
-    void deleteAssocation(String assoId) throws Exception;
+    void deleteAssocation(@Param("assoId") String assoId) throws Exception;
 
     //更新社团信息
     @Update("update assocation set asso_id = #{assocationId}, asso_name = #{assocationName}, asso_synopsis = #{assocationSynopsis},asso_charge_id = #{assocationChargeId}, asso_category = #{assocationCategory},"
             +" asso_est_date = #{assocationEstabDate}, asso_status = #{assocationStatus}, asso_rank = #{assocationRank}}")
     void updateAssocation(Assocation assocation) throws Exception;
+
+    //社团活动申请，将社团活动申请插入数据库
+    @Insert("insert into actapproval(app_act_id,app_asso_id,app_act_name,app_act_theme,app_act_content,app_act_location,app_act_num,app_act_cost,app_act_date,act_application_date,act_apply_id) "
+            + "values(#{activityId},#{activityAssoId},#{activityAssoId},#{activityTheme},#{activityContent},#{activityLocation},#{activityNumber},#{app_act_cost},#{activityDate},#{applicationDate},#{applyId})")
+    void applyAssoAct(ActivityApproval actApproval) throws Exception;
 }

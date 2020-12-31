@@ -1,6 +1,9 @@
 package com.assocation.controller;
 
-import com.assocation.domain.*;
+import com.assocation.domain.ActivityApproval;
+import com.assocation.domain.Assocation;
+import com.assocation.domain.EstApproval;
+import com.assocation.domain.User;
 import com.assocation.exception.SysException;
 import com.assocation.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +19,7 @@ import org.springframework.web.servlet.ModelAndView;
 import javax.servlet.http.HttpServletResponse;
 import java.util.Date;
 import java.util.List;
+import java.util.UUID;
 
 @Controller
 @RequestMapping("/user")
@@ -30,24 +34,17 @@ public class UserController {
     }
 
     @RequestMapping("/login")
-    public ModelAndView login(String userName, String userPassword, Identity userIdentity, Model model){
+    public ModelAndView login(String userName, String userPassword, Model model){
         System.out.println("login()方法执行，用户登录中...");
         ModelAndView mv = new ModelAndView();
-        User user =userService.login(userName,userPassword,userIdentity);
+        User user =userService.login(userName,userPassword);
         if(user != null){
-            if(user.getUserIdentity().equals(Identity.ADMIN)){
-                //管理员登录，跳转到后台管理员界面
-                System.out.println("管理员登录成功.");
-                //将已登录的user信息保存在session中
-                model.addAttribute("userInfo",user);
-                mv.addObject("user",user);
-                mv.setViewName("adminIndex");
-            }else{
-                //学生登录，跳转到学生登录界面
-                System.out.println("学生登录成功.");
-                model.addAttribute("userInfo",user);
-                mv.setViewName("studentIndex");
-            }
+            //用户登录成功，跳转到后台管理界面
+            System.out.println("用户登录成功.");
+            //将已登录的user信息保存在session中
+            model.addAttribute("userInfo",user);
+            mv.addObject("user",user);
+            mv.setViewName("home");
         }else{
             //不存在当前用户，返回login界面
             System.out.println("用户登录失败.");
@@ -76,7 +73,7 @@ public class UserController {
     }
 
     @RequestMapping("/findByNameAndIdentity")
-    public ModelAndView findByNameAndIdentity(String userName,Identity userIdentity){
+    public ModelAndView findByNameAndIdentity(String userName,String userIdentity){
         System.out.println("通过用户名+用户身份模糊查询匹配用户.");
         ModelAndView mv = new ModelAndView();
         List<User> users = userService.findByNameAndIdentity(userName,userIdentity);
@@ -90,7 +87,7 @@ public class UserController {
         System.out.println("通过用户id删除指定用户.");
         try {
             User user = (User) model.get("userInfo");
-            if(Identity.ADMIN.equals(user.getUserIdentity())){
+            if("ADMIN".equals(user.getUserIdentity())){
                 userService.deleteUserById(userId);
             }else{
                 response.getWriter().write("<script>alert('非管理员无权限进行该操作!')<script>");
@@ -106,7 +103,7 @@ public class UserController {
     public ModelAndView addUser(User user, HttpServletResponse response) throws Exception {
         System.out.println("添加用户.");
         ModelAndView mv = new ModelAndView();
-        if(Identity.ADMIN.equals(user.getUserIdentity())){
+        if("ADMIN".equals(user.getUserIdentity())){
             if(!user.getUserPassword().equals(user.getUserRePassword())){
                 response.getWriter().write("<script>alert('两次密码不一致')<script>");
                 mv.setViewName("userAdd");
@@ -130,7 +127,7 @@ public class UserController {
     @RequestMapping("/updateUser")
     public String updateUser(User user,HttpServletResponse response) throws Exception {
         System.out.println("更新用户信息.");
-        if(Identity.ADMIN.equals(user.getUserIdentity())){
+        if("ADMIN".equals(user.getUserIdentity())){
             try {
                 userService.updateUser(user);
             }catch (Exception e){
@@ -143,29 +140,59 @@ public class UserController {
         return "redirect:findAll";
     }
 
+    @RequestMapping("/applyAssoEst")
+    public ModelAndView applyAssoEst(EstApproval estApproval,ModelMap model,HttpServletResponse response) throws Exception{
+        System.out.println("申请创建社团.");
+        ModelAndView mv = new ModelAndView();
+        User user = (User) model.get("userInfo");
+        //生成社团编号
+        String assocationId = UUID.randomUUID().toString().replace("-","");
+        //获取申请日期
+        Date applicationDate = new Date(System.currentTimeMillis());
+        //获取申请人编号
+        String applyId = user.getUserId();
+        estApproval.setAssocationId(assocationId);
+        estApproval.setApplicationDate(applicationDate);
+        estApproval.setApplyId(applyId);
+        try {
+            //提交申请
+            userService.applyAssoEst(estApproval);
+            response.getWriter().write("<script>alert('您的社团创建申请已提交，请等待管理员审批!')<script>");
+            mv.setViewName("assocationList");
+        }catch (Exception e){
+            e.printStackTrace();
+            throw new SysException("申请创建社团失败.");
+        }
+        return mv;
+    }
+
     @RequestMapping("/approveAssoEst")
-    public String approveAssoEst(EstApproval estApproval, ModelMap model,HttpServletResponse response) throws Exception{
+    public ModelAndView approveAssoEst(EstApproval estApproval, ModelMap model,HttpServletResponse response) throws Exception{
         System.out.println("审批社团创建申请.");
+        ModelAndView mv = new ModelAndView();
         try {
             User user = (User) model.get("userInfo");
-            if(Identity.ADMIN.equals(user.getUserIdentity())){
+            if("ADMIN".equals(user.getUserIdentity())){
                 //设置审批人编号为当前登录用户的编号
                 estApproval.setApprovalId(user.getUserId());
                 //设置审批状态为“同意”
-                estApproval.setStatus(ApprovalStatus.AGREE);
+                estApproval.setStatus("AGREE");
                 //设置审批时间为当前时间
                 estApproval.setApprovalDate(new Date(System.currentTimeMillis()));
                 //提交审批
                 userService.approveAssoEst(estApproval);
+                mv.setViewName("assocationList");
+
             }else{
                 //非管理员，无权限进行审批操作
                 response.getWriter().write("<script>alert('非管理员无权限进行该操作!')<script>");
+                mv.setViewName("assocationList");
             }
         }catch (Exception e){
             e.printStackTrace();
             throw new SysException("审批社团创建申请失败.");
         }
-        return "";
+        return mv;
     }
 
     @RequestMapping("/approvalAssoAct")
@@ -174,10 +201,10 @@ public class UserController {
         try {
             User user = (User) model.get("userInfo");
             //判断当前用户是否为管理员
-            if(Identity.ADMIN.equals(user.getUserIdentity())){
+            if("ADMIN".equals(user.getUserIdentity())){
                 //当前用户是管理员
                 actApproval.setApprovalId(user.getUserId());
-                actApproval.setStatus(ApprovalStatus.AGREE);
+                actApproval.setStatus("AGREE");
                 actApproval.setApprovalDate(new Date(System.currentTimeMillis()));
                 //提交审批
                 userService.approvalAssoAct(actApproval);
@@ -195,7 +222,7 @@ public class UserController {
     public String ratingAsso(Assocation assocation,ModelMap model,HttpServletResponse response) throws Exception{
         try {
             User user = (User) model.get("userInfo");
-            if(Identity.ADMIN.equals(user.getUserIdentity())){
+            if("ADMIN".equals(user.getUserIdentity())){
                 //提交评级
                 userService.ratingAsso(assocation);
             }else{

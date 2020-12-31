@@ -21,8 +21,8 @@ public class UserServiceImpl implements UserService{
     }
 
     @Override
-    public User login(String userName, String userPassword, Identity userIdentity) {
-        return userDao.login(userName,userPassword,userIdentity);
+    public User login(String userName, String userPassword) {
+        return userDao.login(userName,userPassword);
     }
 
     @Override
@@ -31,12 +31,17 @@ public class UserServiceImpl implements UserService{
     }
 
     @Override
+    public List<User> findUserById(String userId) {
+        return userDao.findUserById(userId);
+    }
+
+    @Override
     public void deleteUserById(String userId) throws Exception {
         userDao.deleteUserById(userId);
     }
 
     @Override
-    public List<User> findByNameAndIdentity(String userName, Identity userIdentity) {
+    public List<User> findByNameAndIdentity(String userName, String userIdentity) {
         return userDao.findByNameAndIdentity(userName,userIdentity);
     }
 
@@ -49,6 +54,12 @@ public class UserServiceImpl implements UserService{
     public void updateUser(User user) throws Exception {
         userDao.updateUser(user);
     }
+
+    @Override
+    public void applyAssoEst(EstApproval estApproval) throws Exception {
+        userDao.applyAssoEst(estApproval);
+    }
+
 
     @Override
     public void approveAssoEst(EstApproval estApproval) throws Exception {

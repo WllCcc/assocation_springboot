@@ -6,7 +6,7 @@ package com.assocation.domain;
 public class User {
     private String userId;//编号
     private String userName;//姓名
-    private Sex userSex;//性别
+    private String userSex;//性别
     private String userGrade;//年级
     private String userClass;//班级
     private String userCollege;//学院
@@ -14,9 +14,9 @@ public class User {
     private String userPhone;//联系电话
     private String userPassword;//登录密码
     private String userRePassword;//重复登录密码
-    private Identity userIdentity;//用户身份
+    private String userIdentity;//用户身份
 
-    public User(String userId, String userName, Sex userSex, String userGrade, String userClass, String userCollege, String userAssocation, String userPhone, String userPassword, String userRePassword,Identity userIdentity) {
+    public User(String userId, String userName, String userSex, String userGrade, String userClass, String userCollege, String userAssocation, String userPhone, String userPassword, String userRePassword,String userIdentity) {
         this.userId = userId;
         this.userName = userName;
         this.userSex = userSex;
@@ -46,11 +46,11 @@ public class User {
         this.userName = userName;
     }
 
-    public Sex getUserSex() {
+    public String getUserSex() {
         return userSex;
     }
 
-    public void setUserSex(Sex userSex) {
+    public void setUserSex(String userSex) {
         this.userSex = userSex;
     }
 
@@ -110,11 +110,11 @@ public class User {
         this.userPassword = userPassword;
     }
 
-    public Identity getUserIdentity() {
+    public String getUserIdentity() {
         return userIdentity;
     }
 
-    public void setUserIdentity(Identity userIdentity) {
+    public void setUserIdentity(String userIdentity) {
         this.userIdentity = userIdentity;
     }
 

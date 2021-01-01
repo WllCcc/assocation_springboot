@@ -1,6 +1,5 @@
 package com.assocation.dao;
 
-import com.assocation.domain.ActivityApproval;
 import com.assocation.domain.Assocation;
 import org.apache.ibatis.annotations.*;
 import org.springframework.stereotype.Repository;
@@ -42,8 +41,4 @@ public interface AssocationDao {
             +" asso_est_date = #{assocationEstabDate}, asso_status = #{assocationStatus}, asso_rank = #{assocationRank}}")
     void updateAssocation(Assocation assocation) throws Exception;
 
-    //社团活动申请，将社团活动申请插入数据库
-    @Insert("insert into actapproval(app_act_id,app_asso_id,app_act_name,app_act_theme,app_act_content,app_act_location,app_act_num,app_act_cost,app_act_date,act_application_date,act_apply_id) "
-            + "values(#{activityId},#{activityAssoId},#{activityAssoId},#{activityTheme},#{activityContent},#{activityLocation},#{activityNumber},#{app_act_cost},#{activityDate},#{applicationDate},#{applyId})")
-    void applyAssoAct(ActivityApproval actApproval) throws Exception;
 }

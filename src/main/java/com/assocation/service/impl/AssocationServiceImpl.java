@@ -1,7 +1,6 @@
 package com.assocation.service.impl;
 
 import com.assocation.dao.AssocationDao;
-import com.assocation.domain.ActivityApproval;
 import com.assocation.domain.Assocation;
 import com.assocation.service.AssocationService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,11 +38,6 @@ public class AssocationServiceImpl implements AssocationService {
     @Override
     public List<Assocation> findAssoByMultiCons(String assoName, String assoStatus, String assoRank) {
         return assocationDao.findAssoByMultiCons(assoName,assoStatus,assoRank);
-    }
-
-    @Override
-    public void applyAssoAct(ActivityApproval actApproval) throws Exception {
-        assocationDao.applyAssoAct(actApproval);
     }
 
     @Override

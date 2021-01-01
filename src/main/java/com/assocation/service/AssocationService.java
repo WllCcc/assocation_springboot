@@ -1,6 +1,5 @@
 package com.assocation.service;
 
-import com.assocation.domain.ActivityApproval;
 import com.assocation.domain.Assocation;
 
 import java.util.List;
@@ -18,9 +17,6 @@ public interface AssocationService {
 
     //多条件模糊查询社团（社团名+社团状态+社团等级）
     List<Assocation> findAssoByMultiCons(String assoName, String assoStatus, String assoRank);
-
-    //社团活动申请
-    void applyAssoAct(ActivityApproval actApproval) throws Exception;
 
     //删除社团
     void deleteAssocation(String assoId) throws Exception;

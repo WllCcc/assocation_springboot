@@ -20,16 +20,6 @@ public interface UserService {
 
     void updateUser(User user) throws Exception;
 
-    //社团创建申请
-    void applyAssoEst(EstApproval estApproval) throws Exception;
-
-    //审批社团创建申请
-    void approveAssoEst(EstApproval estApproval) throws Exception;
-
-    //审批社团活动申请
-    void approvalAssoAct(ActivityApproval actApproval) throws Exception;
-
     //社团评级
     void ratingAsso(Assocation assocation) throws Exception;
-
 }

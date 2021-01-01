@@ -5,16 +5,16 @@ package com.assocation.domain;
  */
 public class Finance {
     private String financeId;//财务编号
-    private String assocationId;//社团编号
-    private String activityId;//活动编号
+    private String assocationName;//社团名称
+    private String activityName;//活动名称
     private Double category;//类别（收入/支出）
     private String financeMoney;//金额
     private String financeBalance;//剩余总金额
 
-    public Finance(String financeId, String assocationId, String activityId, Double category, String financeMoney, String financeBalance) {
+    public Finance(String financeId, String assocationName, String activityName, Double category, String financeMoney, String financeBalance) {
         this.financeId = financeId;
-        this.assocationId = assocationId;
-        this.activityId = activityId;
+        this.assocationName = assocationName;
+        this.activityName = activityName;
         this.category = category;
         this.financeMoney = financeMoney;
         this.financeBalance = financeBalance;
@@ -28,20 +28,20 @@ public class Finance {
         this.financeId = financeId;
     }
 
-    public String getAssocationId() {
-        return assocationId;
+    public String getAssocationName() {
+        return assocationName;
     }
 
-    public void setAssocationId(String assocationId) {
-        this.assocationId = assocationId;
+    public void setAssocationName(String assocationName) {
+        this.assocationName = assocationName;
     }
 
-    public String getActivityId() {
-        return activityId;
+    public String getActivityName() {
+        return activityName;
     }
 
-    public void setActivityId(String activityId) {
-        this.activityId = activityId;
+    public void setActivityName(String activityName) {
+        this.activityName = activityName;
     }
 
     public Double getCategory() {

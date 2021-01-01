@@ -1,8 +1,6 @@
 package com.assocation.controller;
 
-import com.assocation.domain.ActivityApproval;
 import com.assocation.domain.Assocation;
-import com.assocation.domain.EstApproval;
 import com.assocation.domain.User;
 import com.assocation.exception.SysException;
 import com.assocation.service.UserService;
@@ -17,9 +15,7 @@ import org.springframework.web.bind.support.SessionStatus;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletResponse;
-import java.util.Date;
 import java.util.List;
-import java.util.UUID;
 
 @Controller
 @RequestMapping("/user")
@@ -138,84 +134,6 @@ public class UserController {
             response.getWriter().write("<script>alert('非管理员无权限进行该操作!')<script>");
         }
         return "redirect:findAll";
-    }
-
-    @RequestMapping("/applyAssoEst")
-    public ModelAndView applyAssoEst(EstApproval estApproval,ModelMap model,HttpServletResponse response) throws Exception{
-        System.out.println("申请创建社团.");
-        ModelAndView mv = new ModelAndView();
-        User user = (User) model.get("userInfo");
-        //生成社团编号
-        String assocationId = UUID.randomUUID().toString().replace("-","");
-        //获取申请日期
-        Date applicationDate = new Date(System.currentTimeMillis());
-        //获取申请人编号
-        String applyId = user.getUserId();
-        estApproval.setAssocationId(assocationId);
-        estApproval.setApplicationDate(applicationDate);
-        estApproval.setApplyId(applyId);
-        try {
-            //提交申请
-            userService.applyAssoEst(estApproval);
-            response.getWriter().write("<script>alert('您的社团创建申请已提交，请等待管理员审批!')<script>");
-            mv.setViewName("assocationList");
-        }catch (Exception e){
-            e.printStackTrace();
-            throw new SysException("申请创建社团失败.");
-        }
-        return mv;
-    }
-
-    @RequestMapping("/approveAssoEst")
-    public ModelAndView approveAssoEst(EstApproval estApproval, ModelMap model,HttpServletResponse response) throws Exception{
-        System.out.println("审批社团创建申请.");
-        ModelAndView mv = new ModelAndView();
-        try {
-            User user = (User) model.get("userInfo");
-            if("ADMIN".equals(user.getUserIdentity())){
-                //设置审批人编号为当前登录用户的编号
-                estApproval.setApprovalId(user.getUserId());
-                //设置审批状态为“同意”
-                estApproval.setStatus("AGREE");
-                //设置审批时间为当前时间
-                estApproval.setApprovalDate(new Date(System.currentTimeMillis()));
-                //提交审批
-                userService.approveAssoEst(estApproval);
-                mv.setViewName("assocationList");
-
-            }else{
-                //非管理员，无权限进行审批操作
-                response.getWriter().write("<script>alert('非管理员无权限进行该操作!')<script>");
-                mv.setViewName("assocationList");
-            }
-        }catch (Exception e){
-            e.printStackTrace();
-            throw new SysException("审批社团创建申请失败.");
-        }
-        return mv;
-    }
-
-    @RequestMapping("/approvalAssoAct")
-    public String approvalAssoAct(ActivityApproval actApproval,ModelMap model,HttpServletResponse response) throws Exception{
-        System.out.println("审批社团活动申请");
-        try {
-            User user = (User) model.get("userInfo");
-            //判断当前用户是否为管理员
-            if("ADMIN".equals(user.getUserIdentity())){
-                //当前用户是管理员
-                actApproval.setApprovalId(user.getUserId());
-                actApproval.setStatus("AGREE");
-                actApproval.setApprovalDate(new Date(System.currentTimeMillis()));
-                //提交审批
-                userService.approvalAssoAct(actApproval);
-            }else {
-                response.getWriter().write("<script>alert('非管理员无权限进行该操作!')<script>");
-            }
-        }catch (Exception e){
-            e.printStackTrace();
-            throw new SysException("审批社团活动申请失败.");
-        }
-        return "";
     }
 
     @RequestMapping("/ratingAsso")

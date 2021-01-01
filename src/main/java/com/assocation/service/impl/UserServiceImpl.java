@@ -56,22 +56,6 @@ public class UserServiceImpl implements UserService{
     }
 
     @Override
-    public void applyAssoEst(EstApproval estApproval) throws Exception {
-        userDao.applyAssoEst(estApproval);
-    }
-
-
-    @Override
-    public void approveAssoEst(EstApproval estApproval) throws Exception {
-        userDao.approveAssoEst(estApproval);
-    }
-
-    @Override
-    public void approvalAssoAct(ActivityApproval actApproval) throws Exception{
-        userDao.approvalAssoAct(actApproval);
-    }
-
-    @Override
     public void ratingAsso(Assocation assocation) throws Exception {
         userDao.ratingAsso(assocation);
     }

@@ -12,6 +12,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletResponse;
 import java.util.Date;
+import java.util.List;
 import java.util.UUID;
 
 @Controller
@@ -23,6 +24,16 @@ public class EstApprovalController {
     @Autowired
     public void setEstApprovalService(EstApprovalService estApprovalService) {
         this.estApprovalService = estApprovalService;
+    }
+
+    @RequestMapping("/findAll")
+    public ModelAndView findAll(){
+        System.out.println("查询所有社团审批清单.");
+        ModelAndView mv = new ModelAndView();
+        List<EstApproval> estApprovals = estApprovalService.findAll();
+        mv.addObject("estApprovalList",estApprovals);
+        mv.setViewName("estApprovalList");
+        return mv;
     }
 
     @RequestMapping("/applyAssoEst")

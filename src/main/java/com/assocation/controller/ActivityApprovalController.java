@@ -12,6 +12,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletResponse;
 import java.util.Date;
+import java.util.List;
 import java.util.UUID;
 
 @Controller
@@ -23,6 +24,16 @@ public class ActivityApprovalController {
     @Autowired
     public void setActivityApprovalService(ActivityApprovalService activityApprovalService) {
         this.activityApprovalService = activityApprovalService;
+    }
+
+    @RequestMapping("/findAll")
+    public ModelAndView findAll(){
+        System.out.println("查询所有社团活动审批清单.");
+        ModelAndView mv = new ModelAndView();
+        List<ActivityApproval> activityApprovals = activityApprovalService.findAll();
+        mv.addObject("activityList",activityApprovals);
+        mv.setViewName("activityApprovalList");
+        return mv;
     }
 
     @RequestMapping("applyAssoAct")

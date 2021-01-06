@@ -1,6 +1,5 @@
 package com.assocation.domain;
 
-import java.util.Date;
 
 /**
  *  社团活动记录
@@ -11,12 +10,12 @@ public class Activity {
     private String activityName;//活动名称
     private String activityTheme;//活动主题
     private String activityContent;//活动内容
-    private Integer activityNumber;//活动人数
-    private Date activityDate;//活动日期
+    private String activityNumber;//活动人数
+    private String activityDate;//活动日期
     private String activityLocation;//活动地点
-    private Double activityCost;//预期经费
+    private String activityCost;//预期经费
 
-    public Activity(String activityId, String assocationId, String activityName, String activityTheme, String activityContent, Integer activityNumber, Date activityDate, String activityLocation, Double activityCost) {
+    public Activity(String activityId, String assocationId, String activityName, String activityTheme, String activityContent, String activityNumber, String activityDate, String activityLocation, String activityCost) {
         this.activityId = activityId;
         this.assocationId = assocationId;
         this.activityName = activityName;
@@ -26,14 +25,6 @@ public class Activity {
         this.activityDate = activityDate;
         this.activityLocation = activityLocation;
         this.activityCost = activityCost;
-    }
-
-    public String getActivityId() {
-        return activityId;
-    }
-
-    public void setActivityId(String activityId) {
-        this.activityId = activityId;
     }
 
     public String getAssocationId() {
@@ -68,19 +59,19 @@ public class Activity {
         this.activityContent = activityContent;
     }
 
-    public Integer getActivityNumber() {
+    public String getActivityNumber() {
         return activityNumber;
     }
 
-    public void setActivityNumber(Integer activityNumber) {
+    public void setActivityNumber(String activityNumber) {
         this.activityNumber = activityNumber;
     }
 
-    public Date getActivityDate() {
+    public String getActivityDate() {
         return activityDate;
     }
 
-    public void setActivityDate(Date activityDate) {
+    public void setActivityDate(String activityDate) {
         this.activityDate = activityDate;
     }
 
@@ -92,11 +83,34 @@ public class Activity {
         this.activityLocation = activityLocation;
     }
 
-    public Double getActivityCost() {
+    public String getActivityCost() {
         return activityCost;
     }
 
-    public void setActivityCost(Double activityCost) {
+    public void setActivityCost(String activityCost) {
         this.activityCost = activityCost;
+    }
+
+    public String getActivityId() {
+        return activityId;
+    }
+
+    public void setActivityId(String activityId) {
+        this.activityId = activityId;
+    }
+
+    @Override
+    public String toString() {
+        return "Activity{" +
+                "activityId='" + activityId + '\'' +
+                ", assocationId='" + assocationId + '\'' +
+                ", activityName='" + activityName + '\'' +
+                ", activityTheme='" + activityTheme + '\'' +
+                ", activityContent='" + activityContent + '\'' +
+                ", activityNumber='" + activityNumber + '\'' +
+                ", activityDate='" + activityDate + '\'' +
+                ", activityLocation='" + activityLocation + '\'' +
+                ", activityCost='" + activityCost + '\'' +
+                '}';
     }
 }

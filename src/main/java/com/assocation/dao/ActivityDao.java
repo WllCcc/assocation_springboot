@@ -23,8 +23,8 @@ public interface ActivityDao {
     //多条件查询活动（活动名+所属社团编号）
     @Select({"<script> SELECT * from activity"
             +"<where>"
-            +"<if test = \"act_name != null and act_name != ''\"> act_name like CONCAT('%',#{activityName},'%')</if>"
-            +"<if test = \"act_asso_id != null and act_asso_id != ''\"> act_asso_id = #{assoId}</if></where></script>"})
+            +"<if test = \"activityName != null and activityName != ''\"> act_name like CONCAT('%',#{activityName},'%')</if>"
+            +"<if test = \"assoId != null and assoId != ''\"> act_asso_id = #{assoId}</if></where></script>"})
     List<Activity> findByNameAndAssoId(@Param("activityName") String activityName,@Param("assoId") String assoId);
 
     //删除活动
@@ -32,7 +32,7 @@ public interface ActivityDao {
     void deleteActivity(@Param("activityId") String activityId) throws Exception;
 
     //更新活动信息
-    @Update("update activity set act_name = #{activityName}, act_theme = #{activityTheme}, act_content = #{activityContent},act_number = #{activityNumber},act_date = #{activityDate},act_location=#{activityLocation},act_cost = #{activityCost}")
+    @Update("update activity set act_asso_id = #{assocationId}, act_name = #{activityName}, act_theme = #{activityTheme}, act_content = #{activityContent},act_number = #{activityNumber},act_date = #{activityDate},act_location=#{activityLocation},act_cost = #{activityCost} where act_id = #{activityId}")
     void updateActivity(Activity activity) throws Exception;
 
 }

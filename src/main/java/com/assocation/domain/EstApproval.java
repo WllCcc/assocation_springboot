@@ -1,6 +1,5 @@
 package com.assocation.domain;
 
-import java.util.Date;
 
 /**
  *  社团创建审批
@@ -12,13 +11,13 @@ public class EstApproval {
     private String assocationCategory;//社团类别
     private String assocationStatus;//社团状态
     private String assocationRank;//社团等级
-    private Date applicationDate;//申请时间
-    private Date approvalDate;//审批时间
+    private String applicationDate;//申请时间
+    private String approvalDate;//审批时间
     private String status;//审批状态（等待审批/同意/不同意）
     private String applyId;//申请人编号
     private String approvalId;//审批人编号
 
-    public EstApproval(String assocationId, String assocationName, String assocationSynopsis, String assocationCategory, String assocationStatus, String assocationRank, Date applicationDate, Date approvalDate, String status, String applyId, String approvalId) {
+    public EstApproval(String assocationId, String assocationName, String assocationSynopsis, String assocationCategory, String assocationStatus, String assocationRank, String applicationDate, String approvalDate, String status, String applyId, String approvalId) {
         this.assocationId = assocationId;
         this.assocationName = assocationName;
         this.assocationSynopsis = assocationSynopsis;
@@ -80,19 +79,19 @@ public class EstApproval {
         this.assocationRank = assocationRank;
     }
 
-    public Date getApplicationDate() {
+    public String getApplicationDate() {
         return applicationDate;
     }
 
-    public void setApplicationDate(Date applicationDate) {
+    public void setApplicationDate(String applicationDate) {
         this.applicationDate = applicationDate;
     }
 
-    public Date getApprovalDate() {
+    public String getApprovalDate() {
         return approvalDate;
     }
 
-    public void setApprovalDate(Date approvalDate) {
+    public void setApprovalDate(String approvalDate) {
         this.approvalDate = approvalDate;
     }
 
@@ -118,5 +117,22 @@ public class EstApproval {
 
     public void setApprovalId(String approvalId) {
         this.approvalId = approvalId;
+    }
+
+    @Override
+    public String toString() {
+        return "EstApproval{" +
+                "assocationId='" + assocationId + '\'' +
+                ", assocationName='" + assocationName + '\'' +
+                ", assocationSynopsis='" + assocationSynopsis + '\'' +
+                ", assocationCategory='" + assocationCategory + '\'' +
+                ", assocationStatus='" + assocationStatus + '\'' +
+                ", assocationRank='" + assocationRank + '\'' +
+                ", applicationDate='" + applicationDate + '\'' +
+                ", approvalDate='" + approvalDate + '\'' +
+                ", status='" + status + '\'' +
+                ", applyId='" + applyId + '\'' +
+                ", approvalId='" + approvalId + '\'' +
+                '}';
     }
 }

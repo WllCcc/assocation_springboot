@@ -9,6 +9,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletResponse;
@@ -16,6 +17,7 @@ import java.util.List;
 
 @Controller
 @RequestMapping("/activity")
+@SessionAttributes(value = {"userInfo"},types = {User.class})
 public class ActivityController {
 
     private ActivityService activityService;
@@ -31,7 +33,7 @@ public class ActivityController {
         ModelAndView mv = new ModelAndView();
         List<Activity> activities = activityService.findAll();
         for(Activity activity:activities)System.out.println(activity.toString());
-        mv.addObject(activities);
+        mv.addObject("activityList",activities);
         mv.setViewName("activityList");
         return mv;
     }
@@ -42,7 +44,7 @@ public class ActivityController {
         ModelAndView mv = new ModelAndView();
         List<Activity> activities = activityService.findActivityById(activityId);
         for(Activity activity:activities)System.out.println(activity.toString());
-        mv.addObject(activities);
+        mv.addObject("activityList",activities);
         mv.setViewName("activityList");
         return mv;
     }
@@ -53,16 +55,16 @@ public class ActivityController {
         ModelAndView mv = new ModelAndView();
         List<Activity> activities = activityService.findByNameAndAssoId(activityName,assoId);
         for (Activity activity:activities)System.out.println(activity.toString());
-        mv.addObject(activities);
+        mv.addObject("activityList",activities);
         mv.setViewName("activityList");
         return mv;
     }
 
     @RequestMapping("/deleteActivity")
-    public String deleteActivity(@RequestParam(name = "id") String activityId, ModelMap model, HttpServletResponse response) throws Exception{
+    public String deleteActivity(@RequestParam(name = "activityId") String activityId, ModelMap model, HttpServletResponse response) throws Exception{
         System.out.println("通过活动编号删除活动.");
         User user = (User) model.get("userInfo");
-        if("ADMIN".equals(user.getUserIdentity())){
+        if("管理员".equals(user.getUserIdentity())){
             try {
                 activityService.deleteActivity(activityId);
             }catch (Exception e){
@@ -72,14 +74,14 @@ public class ActivityController {
         }else {
             response.getWriter().write("<script>alert('非管理员无权限进行该操作!')<script>");
         }
-        return "redirect:findAll";
+        return "redirect:/activity/findAll";
     }
 
     @RequestMapping("/updateActivity")
     public String updateActivity(Activity activity,ModelMap model,HttpServletResponse response) throws Exception{
         System.out.println("更新活动信息.");
         User user = (User) model.get("userInfo");
-        if("ADMIN".equals(user.getUserIdentity())){
+        if("管理员".equals(user.getUserIdentity())){
             try {
                 activityService.updateActivity(activity);
             }catch (Exception e){

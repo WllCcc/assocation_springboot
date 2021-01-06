@@ -34,4 +34,9 @@ public class EstApprovalImpl implements EstApprovalService {
     public void approveAssoEst(EstApproval estApproval) throws Exception {
         estApprovalDao.approveAssoEst(estApproval);
     }
+
+    @Override
+    public void updateEstApproval(EstApproval estApproval) throws Exception {
+        estApprovalDao.updateEstApproval(estApproval);
+    }
 }

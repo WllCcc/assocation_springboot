@@ -18,4 +18,7 @@ public interface ActivityApprovalService {
     //审批社团活动申请
     void approvalAssoAct(ActivityApproval actApproval) throws Exception;
 
+    //更新审批记录
+    void updateActApproval(ActivityApproval actApproval) throws Exception;
+
 }

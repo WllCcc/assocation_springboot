@@ -23,8 +23,8 @@ public interface UserDao {
     //多条件模糊查询（用户名+用户身份）
     @Select({"<script> SELECT * from user"
             +"<where>"
-            +"<if test = \"user_name != null and user_name != ''\"> user_name like CONCAT('%',#{userName},'%')</if>"
-            +"<if test = \"user_identity != null and user_identity != ''\"> user_identity = #{userIdentity}</if></where></script>"})
+            +"<if test = \"userName != null and userName != ''\"> user_name like CONCAT('%',#{userName},'%')</if>"
+            +"<if test = \"userIdentity != null and userIdentity != ''\"> user_identity = #{userIdentity}</if></where></script>"})
     List<User> findByNameAndIdentity(@Param("userName") String userName,@Param("userIdentity") String userIdentity);
 
     @Insert("insert into user(user_id,user_name,user_sex,user_grade,user_class,user_college,user_assocation,user_password,user_repassword,user_phone,user_identity)"
@@ -37,7 +37,7 @@ public interface UserDao {
 
     //更新用户信息
     @Update("update user set user_name = #{userName},user_sex = #{userSex},user_grade = #{userGrade},user_class = #{userClass},user_college=#{userCollege},"
-            +"user_assocation=#{userAssocation},user_password=#{userPassword},user_repassword=#{userRePassword},user_phone=#{userPhone},user_identity=#{userIdentity}")
+            +"user_assocation=#{userAssocation},user_phone=#{userPhone},user_identity=#{userIdentity} where user_id = #{userId}")
     void updateUser(User user) throws Exception;
 
     //社团评级

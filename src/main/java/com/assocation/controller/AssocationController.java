@@ -8,6 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletResponse;
@@ -15,6 +17,7 @@ import java.util.List;
 
 @Controller
 @RequestMapping("/assocation")
+@SessionAttributes(value = {"userInfo"},types = {User.class})
 public class AssocationController {
 
     private AssocationService assocationService;
@@ -30,7 +33,7 @@ public class AssocationController {
         ModelAndView mv = new ModelAndView();
         List<Assocation> assocations = assocationService.findAllAsso();
         for(Assocation assocation:assocations)System.out.println(assocation.toString());
-        mv.addObject("assocations",assocations);
+        mv.addObject("assocationList",assocations);
         mv.setViewName("assocationList");
         return mv;
     }
@@ -40,36 +43,17 @@ public class AssocationController {
         System.out.println("通过社团名+社团状态+社团等级条件组合查询社团.");
         ModelAndView mv = new ModelAndView();
         List<Assocation> assocations = assocationService.findAssoByMultiCons(assoName,assoStatus,assoRank);
-        mv.addObject("assocations",assocations);
+        mv.addObject("assocationList",assocations);
         mv.setViewName("assocationList");
         return mv;
     }
 
-//    @RequestMapping("/addAssocation")
-//    public ModelAndView addAssocation(Assocation assocation, HttpServletResponse response,ModelMap model) throws Exception{
-//        System.out.println("添加社团.");
-//        ModelAndView mv = new ModelAndView();
-//        User user = (User)model.get("userInfo");
-//        if("ADMIN".equals(user.getUserIdentity())){
-//            try {
-//                assocationService.addAssocation(assocation);
-//                mv.setViewName("assocationList");
-//            }catch (Exception e){
-//                e.printStackTrace();
-//                throw new SysException("添加社团失败.");
-//            }
-//        }else{
-//            response.getWriter().write("<script>alert('非管理员无权限进行该操作!')<script>");
-//            mv.setViewName("assocationAdd");
-//        }
-//        return mv;
-//    }
 
     @RequestMapping("/deleteAssocation")
-    public String deleteAssocation(String assoId,HttpServletResponse response,ModelMap model) throws Exception{
+    public String deleteAssocation(@RequestParam("assocationId") String assoId, HttpServletResponse response, ModelMap model) throws Exception{
         System.out.println("通过社团id删除指定社团.");
         User user = (User) model.get("userInfo");
-        if("ADMIN".equals(user.getUserIdentity())){
+        if("管理员".equals(user.getUserIdentity())){
             try {
                 assocationService.deleteAssocation(assoId);
             }catch (Exception e){
@@ -79,14 +63,15 @@ public class AssocationController {
         }else {
             response.getWriter().write("<script>alert('非管理员无权限进行该操作!')<script>");
         }
-        return "redirect:findAll";
+        return "redirect:/assocation/findAll";
     }
 
     @RequestMapping("/updateAssocation")
     public String updateAssocation(Assocation assocation,HttpServletResponse response,ModelMap model) throws Exception{
         System.out.println("更新社团信息");
         User user = (User) model.get("userInfo");
-        if("ADMIN".equals(user.getUserIdentity())){
+        System.out.println("user = " + user.toString());
+        if("管理员".equals(user.getUserIdentity())){
             try {
                 assocationService.updateAssocation(assocation);
             }catch (Exception e){
@@ -96,6 +81,6 @@ public class AssocationController {
         }else{
             response.getWriter().write("<script>alert('非管理员无权限进行该操作!')<script>");
         }
-        return "redirect:findAll";
+        return "redirect:/assocation/findAll";
     }
 }

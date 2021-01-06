@@ -8,13 +8,17 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletResponse;
 import java.util.List;
+import java.util.UUID;
 
 @Controller
 @RequestMapping("/finance")
+@SessionAttributes(value = {"userInfo"},types = {User.class})
 public class FinanceController {
 
     private FinanceService financeService;
@@ -50,9 +54,13 @@ public class FinanceController {
     @RequestMapping("/addFinance")
     public String addFinance(Finance finance, ModelMap model, HttpServletResponse response) throws Exception{
         System.out.println("添加社团活动财务记录.");
+        System.out.println(finance.toString());
         User user = (User) model.get("userInfo");
-        if("ADMIN".equals(user.getUserIdentity())){
+        System.out.println(user.toString());
+        if("管理员".equals(user.getUserIdentity())){
             try {
+                String financeId = UUID.randomUUID().toString().replace("-","");
+                finance.setFinanceId(financeId);
                 financeService.addFinance(finance);
                 System.out.println("财务记录添加成功.");
             }catch (Exception e){
@@ -62,15 +70,16 @@ public class FinanceController {
         }else {
             response.getWriter().write("<script>alert('非管理员无权限进行该操作!')<script>");
         }
-        return "redirect:findAll";
+        return "redirect:/finance/findAll";
     }
 
     //删除财务记录
     @RequestMapping("/deleteFinance")
-    public String deleteFinance(String financeId,ModelMap model,HttpServletResponse response) throws Exception{
+    public String deleteFinance(@RequestParam(name="financeId") String financeId, ModelMap model, HttpServletResponse response) throws Exception{
         System.out.println("删除社团活动财务记录.");
+        System.out.println("financeId = "+financeId);
         User user = (User) model.get("userInfo");
-        if("ADMIN".equals(user.getUserIdentity())){
+        if("管理员".equals(user.getUserIdentity())){
             try {
                 financeService.deleteFinance(financeId);
                 System.out.println("删除社团活动财务记录成功.");
@@ -81,7 +90,7 @@ public class FinanceController {
         }else {
             response.getWriter().write("<script>alert('非管理员无权限进行该操作!')<script>");
         }
-        return "";
+        return "redirect:/finance/findAll";
     }
 
     //更新财务信息
@@ -89,7 +98,7 @@ public class FinanceController {
     public String updateFinance(Finance finance,ModelMap model,HttpServletResponse response) throws Exception{
         System.out.println("更新社团活动财务记录.");
         User user = (User) model.get("userInfo");
-        if("ADMIN".equals(user.getUserIdentity())){
+        if("管理员".equals(user.getUserIdentity())){
             try {
                 financeService.updateFinance(finance);
                 System.out.println("更新社团活动财务信息成功.");
@@ -100,6 +109,6 @@ public class FinanceController {
         }else {
             response.getWriter().write("<script>alert('非管理员无权限进行该操作!')<script>");
         }
-        return "redirect:findAll";
+        return "redirect:/finance/findAll";
     }
 }

@@ -16,8 +16,8 @@ public interface FinanceDao {
     //通过财务编号+财务类型查询指定财务记录
     @Select({"<script> SELECT * from finance"
             +"<where>"
-            +"<if test = \"fin_id != null and fin_id != ''\"> fin_id like CONCAT('%',#{financeId},'%')</if>"
-            +"<if test = \"fin_category != null and fin_category != ''\"> fin_category = #{financeCategory}</if></where></script>"})
+            +"<if test = \"financeId != null and financeId != ''\"> fin_id like CONCAT('%',#{financeId},'%')</if>"
+            +"<if test = \"financeCategory != null and financeCategory != ''\"> fin_category = #{financeCategory}</if></where></script>"})
     List<Finance> findFinanceByMore(@Param("financeId") String financeId, @Param("financeCategory") String financeCategory);
 
     //添加财务记录
@@ -30,7 +30,7 @@ public interface FinanceDao {
     void deleteFinance(@Param("financeId") String financeId) throws Exception;
 
     //更新财务信息
-    @Update("update finance set fin_asso_name = #{assocationName}, fin_act_name = #{activityName}, fin_category = #{category},fin_money = #{financeMoney}, fin_balance = #{financeBalance}")
+    @Update("update finance set fin_asso_name = #{assocationName}, fin_act_name = #{activityName}, fin_category = #{category},fin_money = #{financeMoney}, fin_balance = #{financeBalance} where fin_id = #{financeId}")
     void updateFinance(Finance finance) throws Exception;
 
 }

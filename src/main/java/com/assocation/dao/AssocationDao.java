@@ -20,11 +20,11 @@ public interface AssocationDao {
     String findAssoIdByName(@Param("assoName") String assoName);
 
     //多条件模糊查询（社团名+社团状态+社团等级）
-    @Select({"<script> SELECT * from assocation"
+    @Select({"<script> select * from assocation"
             +"<where>"
-            +"<if test = \"asso_name != null and asso_name != ''\"> asso_name like CONCAT('%',#{assoName},'%')</if>"
-            +"<if test = \"asso_status != null and asso_status != ''\"> asso_status = #{assoStatus}</if>"
-            +"<if test = \"asso_rank != null and asso_rank != ''\"> asso_rank = #{assoRank}</if></where></script>"})
+            +"<if test = \"assoName != null and assoName != ''\"> asso_name like CONCAT('%',#{assoName},'%')</if>"
+            +"<if test = \"assoStatus != null and assoStatus != ''\"> asso_status = #{assoStatus}</if>"
+            +"<if test = \"assoRank != null and assoRank != ''\"> asso_rank = #{assoRank}</if></where></script>"})
     List<Assocation> findAssoByMultiCons(@Param("assoName") String assoName, @Param("assoStatus") String assoStatus, @Param("assoRank") String assoRank);
 
     //添加社团
@@ -33,12 +33,12 @@ public interface AssocationDao {
     void addAssocation(Assocation assocation) throws Exception;
 
     //删除社团
-    @Delete("delete from assocation where asso_id = #{assoId}")
-    void deleteAssocation(@Param("assoId") String assoId) throws Exception;
+    @Delete("delete from assocation where asso_id = #{assocationId}")
+    void deleteAssocation(@Param("assocationId") String assocationId) throws Exception;
 
     //更新社团信息
-    @Update("update assocation set asso_id = #{assocationId}, asso_name = #{assocationName}, asso_synopsis = #{assocationSynopsis},asso_charge_id = #{assocationChargeId}, asso_category = #{assocationCategory},"
-            +" asso_est_date = #{assocationEstabDate}, asso_status = #{assocationStatus}, asso_rank = #{assocationRank}}")
+    @Update("update assocation set asso_name = #{assocationName}, asso_synopsis = #{assocationSynopsis},asso_charge_id = #{assocationChargeId}, asso_category = #{assocationCategory},"
+            +" asso_estab_date = #{assocationEstabDate}, asso_status = #{assocationStatus}, asso_rank = #{assocationRank} where asso_id = #{assocationId}")
     void updateAssocation(Assocation assocation) throws Exception;
 
 }

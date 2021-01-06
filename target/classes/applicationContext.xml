@@ -44,10 +44,10 @@
     </bean>
 
     <!--    配置事务通知-->
-    <tx:advice id="txAdvice" transaction-manager="transactionManager">
+    <tx:advice id="txAdvice">
         <tx:attributes>
             <tx:method name="find*" read-only="true"/>
-            <tx:method name="*" isolation="DEFAULT"/>
+            <tx:method name="*"/>
         </tx:attributes>
     </tx:advice>
 

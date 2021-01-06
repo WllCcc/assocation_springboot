@@ -11,12 +11,12 @@ public class User {
     private String userClass;//班级
     private String userCollege;//学院
     private String userAssocation;//所属社团
-    private String userPhone;//联系电话
     private String userPassword;//登录密码
     private String userRePassword;//重复登录密码
+    private String userPhone;//联系电话
     private String userIdentity;//用户身份
 
-    public User(String userId, String userName, String userSex, String userGrade, String userClass, String userCollege, String userAssocation, String userPhone, String userPassword, String userRePassword,String userIdentity) {
+    public User(String userId, String userName, String userSex, String userGrade, String userClass, String userCollege, String userAssocation, String userPassword, String userRePassword, String userPhone, String userIdentity) {
         this.userId = userId;
         this.userName = userName;
         this.userSex = userSex;
@@ -24,9 +24,9 @@ public class User {
         this.userClass = userClass;
         this.userCollege = userCollege;
         this.userAssocation = userAssocation;
-        this.userPhone = userPhone;
         this.userPassword = userPassword;
         this.userRePassword = userRePassword;
+        this.userPhone = userPhone;
         this.userIdentity = userIdentity;
     }
 
@@ -78,14 +78,6 @@ public class User {
         this.userCollege = userCollege;
     }
 
-    public String getUserRePassword() {
-        return userRePassword;
-    }
-
-    public void setUserRePassword(String userRePassword) {
-        this.userRePassword = userRePassword;
-    }
-
     public String getUserAssocation() {
         return userAssocation;
     }
@@ -94,20 +86,28 @@ public class User {
         this.userAssocation = userAssocation;
     }
 
-    public String getUserPhone() {
-        return userPhone;
-    }
-
-    public void setUserPhone(String userPhone) {
-        this.userPhone = userPhone;
-    }
-
     public String getUserPassword() {
         return userPassword;
     }
 
     public void setUserPassword(String userPassword) {
         this.userPassword = userPassword;
+    }
+
+    public String getUserRePassword() {
+        return userRePassword;
+    }
+
+    public void setUserRePassword(String userRePassword) {
+        this.userRePassword = userRePassword;
+    }
+
+    public String getUserPhone() {
+        return userPhone;
+    }
+
+    public void setUserPhone(String userPhone) {
+        this.userPhone = userPhone;
     }
 
     public String getUserIdentity() {
@@ -123,14 +123,15 @@ public class User {
         return "User{" +
                 "userId='" + userId + '\'' +
                 ", userName='" + userName + '\'' +
-                ", userSex=" + userSex +
+                ", userSex='" + userSex + '\'' +
                 ", userGrade='" + userGrade + '\'' +
                 ", userClass='" + userClass + '\'' +
                 ", userCollege='" + userCollege + '\'' +
                 ", userAssocation='" + userAssocation + '\'' +
-                ", userPhone='" + userPhone + '\'' +
                 ", userPassword='" + userPassword + '\'' +
-                ", userIdentity=" + userIdentity +
+                ", userRePassword='" + userRePassword + '\'' +
+                ", userPhone='" + userPhone + '\'' +
+                ", userIdentity='" + userIdentity + '\'' +
                 '}';
     }
 }

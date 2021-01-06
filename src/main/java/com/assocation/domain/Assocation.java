@@ -1,8 +1,5 @@
 package com.assocation.domain;
 
-import org.springframework.format.annotation.DateTimeFormat;
-
-import java.util.Date;
 
 /**
  *  社团实体
@@ -13,14 +10,11 @@ public class Assocation {
     private String assocationSynopsis;//社团简介
     private String assocationChargeId;//负责人学号
     private String assocationCategory;//社团类别
-
-    @DateTimeFormat(pattern = "yyyy-mm-dd")
-    private Date assocationEstabDate;//成立时间
-
+    private String assocationEstabDate;//成立时间
     private String assocationStatus;//社团状态
     private String assocationRank;//社团等级
 
-    public Assocation(String assocationId, String assocationName, String assocationSynopsis, String assocationChargeId, String assocationCategory, Date assocationEstabDate, String assocationStatus, String assocationRank) {
+    public Assocation(String assocationId, String assocationName, String assocationSynopsis, String assocationChargeId, String assocationCategory, String assocationEstabDate, String assocationStatus, String assocationRank) {
         this.assocationId = assocationId;
         this.assocationName = assocationName;
         this.assocationSynopsis = assocationSynopsis;
@@ -71,11 +65,11 @@ public class Assocation {
         this.assocationCategory = assocationCategory;
     }
 
-    public Date getAssocationEstabDate() {
+    public String getAssocationEstabDate() {
         return assocationEstabDate;
     }
 
-    public void setAssocationEstabDate(Date assocationEstabDate) {
+    public void setAssocationEstabDate(String assocationEstabDate) {
         this.assocationEstabDate = assocationEstabDate;
     }
 
@@ -93,5 +87,19 @@ public class Assocation {
 
     public void setAssocationRank(String assocationRank) {
         this.assocationRank = assocationRank;
+    }
+
+    @Override
+    public String toString() {
+        return "Assocation{" +
+                "assocationId='" + assocationId + '\'' +
+                ", assocationName='" + assocationName + '\'' +
+                ", assocationSynopsis='" + assocationSynopsis + '\'' +
+                ", assocationChargeId='" + assocationChargeId + '\'' +
+                ", assocationCategory='" + assocationCategory + '\'' +
+                ", assocationEstabDate='" + assocationEstabDate + '\'' +
+                ", assocationStatus='" + assocationStatus + '\'' +
+                ", assocationRank='" + assocationRank + '\'' +
+                '}';
     }
 }

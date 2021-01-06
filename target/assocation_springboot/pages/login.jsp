@@ -1,7 +1,13 @@
+<%--
+  Created by IntelliJ IDEA.
+  User: 深埋
+  Date: 2020/12/23
+  Time: 22:45
+  To change this template use File | Settings | File Templates.
+--%>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" isELIgnored="false" %>
 <html>
 <head lang="en">
-<%--    <meta charset="UTF-8">--%>
     <title>大学生社团管理系统</title>
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/Style.css"/>
 	

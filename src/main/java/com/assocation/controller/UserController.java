@@ -16,6 +16,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletResponse;
 import java.util.List;
+import java.util.UUID;
 
 @Controller
 @RequestMapping("/user")
@@ -39,6 +40,7 @@ public class UserController {
             System.out.println("用户登录成功.");
             //将已登录的user信息保存在session中
             model.addAttribute("userInfo",user);
+            System.out.println("model.get(user)="+model.asMap().get("userInfo").toString());
             mv.addObject("user",user);
             mv.setViewName("home");
         }else{
@@ -63,7 +65,7 @@ public class UserController {
         ModelAndView mv = new ModelAndView();
         List<User> userList = userService.findAll();
         for(User user:userList) System.out.println(user.toString());
-        mv.addObject("users",userList);
+        mv.addObject("userList",userList);
         mv.setViewName("userList");
         return mv;
     }
@@ -73,17 +75,17 @@ public class UserController {
         System.out.println("通过用户名+用户身份模糊查询匹配用户.");
         ModelAndView mv = new ModelAndView();
         List<User> users = userService.findByNameAndIdentity(userName,userIdentity);
-        mv.addObject("users",users);
+        mv.addObject("userList",users);
         mv.setViewName("userList");
         return mv;
     }
 
     @RequestMapping("/deleteUserById")
-    public String deleteUserById(@RequestParam(name = "id") String userId,ModelMap model,HttpServletResponse response) throws Exception{
+    public String deleteUserById(@RequestParam(name = "userId") String userId,ModelMap model,HttpServletResponse response) throws Exception{
         System.out.println("通过用户id删除指定用户.");
         try {
             User user = (User) model.get("userInfo");
-            if("ADMIN".equals(user.getUserIdentity())){
+            if("管理员".equals(user.getUserIdentity())){
                 userService.deleteUserById(userId);
             }else{
                 response.getWriter().write("<script>alert('非管理员无权限进行该操作!')<script>");
@@ -92,20 +94,22 @@ public class UserController {
             e.printStackTrace();
             throw new SysException("删除指定用户失败.");
         }
-        return "redirect:findAll";
+        return "redirect:/user/findAll";
     }
 
     @RequestMapping("/addUser")
-    public ModelAndView addUser(User user, HttpServletResponse response) throws Exception {
+    public String addUser(User user,HttpServletResponse response) throws Exception {
         System.out.println("添加用户.");
-        ModelAndView mv = new ModelAndView();
-        if("ADMIN".equals(user.getUserIdentity())){
+        List<User> loginUsers = userService.findUserById(user.getUserId());
+        User loginUser = loginUsers.get(0);
+        if("管理员".equals(loginUser.getUserIdentity())){
             if(!user.getUserPassword().equals(user.getUserRePassword())){
                 response.getWriter().write("<script>alert('两次密码不一致')<script>");
-                mv.setViewName("userAdd");
-                return mv;
+                return "redirect:/user/addUser";
             }
             try {
+                String userId = UUID.randomUUID().toString().replace("-","");
+                user.setUserId(userId);
                 userService.addUser(user);
             }catch (Exception e){
                 e.printStackTrace();
@@ -113,17 +117,19 @@ public class UserController {
             }
         }else{
             response.getWriter().write("<script>alert('非管理员无权限进行该操作!')<script>");
-            mv.setViewName("userAdd");
-            return mv;
+            return "redirect:/user/addUser";
         }
-        mv.setViewName("userList");
-        return mv;
+        return "redirect:/user/findAll";
     }
 
     @RequestMapping("/updateUser")
-    public String updateUser(User user,HttpServletResponse response) throws Exception {
+    public String updateUser(User user,ModelMap model,HttpServletResponse response) throws Exception {
         System.out.println("更新用户信息.");
-        if("ADMIN".equals(user.getUserIdentity())){
+        System.out.println("user:" + user.toString());
+        User loginUser = (User) model.get("userInfo");
+        System.out.println("loginUser:"+loginUser.toString());
+        if("管理员".equals(loginUser.getUserIdentity())){
+            System.out.println("进来了...");
             try {
                 userService.updateUser(user);
             }catch (Exception e){
@@ -133,14 +139,14 @@ public class UserController {
         }else{
             response.getWriter().write("<script>alert('非管理员无权限进行该操作!')<script>");
         }
-        return "redirect:findAll";
+        return "redirect:/user/findAll";
     }
 
     @RequestMapping("/ratingAsso")
     public String ratingAsso(Assocation assocation,ModelMap model,HttpServletResponse response) throws Exception{
         try {
             User user = (User) model.get("userInfo");
-            if("ADMIN".equals(user.getUserIdentity())){
+            if("管理员".equals(user.getUserIdentity())){
                 //提交评级
                 userService.ratingAsso(assocation);
             }else{

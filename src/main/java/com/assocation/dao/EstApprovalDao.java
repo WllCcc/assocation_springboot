@@ -3,6 +3,7 @@ package com.assocation.dao;
 import com.assocation.domain.EstApproval;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.Update;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -23,4 +24,8 @@ public interface EstApprovalDao {
     @Insert("insert into assocation(asso_id,asso_name,asso_synopsis,asso_charge_id,asso_category,asso_estab_date,asso_status,asso_rank) "
             + " values(#{assocationId},#{assocationName},#{assocationSynopsis},#{applyId},#{assocationCategory},#{approvalDate},#{assocationStatus},#{assocationRank})")
     void approveAssoEst(EstApproval estApproval) throws Exception;
+
+    //更新社团审批信息
+    @Update("update estapproval set est_approval_date = #{approvalDate}, est_status = #{status}, est_approval_id = #{approvalId} where est_asso_id = #{assocationId}")
+    void updateEstApproval(EstApproval actApproval) throws Exception;
 }

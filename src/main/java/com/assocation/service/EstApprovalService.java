@@ -14,4 +14,7 @@ public interface EstApprovalService {
 
     //审批社团创建申请
     void approveAssoEst(EstApproval estApproval) throws Exception;
+
+    //更新审批记录
+    void updateEstApproval(EstApproval estApproval) throws Exception;
 }

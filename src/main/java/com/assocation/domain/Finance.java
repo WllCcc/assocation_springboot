@@ -7,11 +7,11 @@ public class Finance {
     private String financeId;//财务编号
     private String assocationName;//社团名称
     private String activityName;//活动名称
-    private Double category;//类别（收入/支出）
+    private String category;//类别（收入/支出）
     private String financeMoney;//金额
     private String financeBalance;//剩余总金额
 
-    public Finance(String financeId, String assocationName, String activityName, Double category, String financeMoney, String financeBalance) {
+    public Finance(String financeId, String assocationName, String activityName, String category, String financeMoney, String financeBalance) {
         this.financeId = financeId;
         this.assocationName = assocationName;
         this.activityName = activityName;
@@ -44,11 +44,11 @@ public class Finance {
         this.activityName = activityName;
     }
 
-    public Double getCategory() {
+    public String getCategory() {
         return category;
     }
 
-    public void setCategory(Double category) {
+    public void setCategory(String category) {
         this.category = category;
     }
 
@@ -66,5 +66,17 @@ public class Finance {
 
     public void setFinanceBalance(String financeBalance) {
         this.financeBalance = financeBalance;
+    }
+
+    @Override
+    public String toString() {
+        return "Finance{" +
+                "financeId='" + financeId + '\'' +
+                ", assocationName='" + assocationName + '\'' +
+                ", activityName='" + activityName + '\'' +
+                ", category='" + category + '\'' +
+                ", financeMoney='" + financeMoney + '\'' +
+                ", financeBalance='" + financeBalance + '\'' +
+                '}';
     }
 }

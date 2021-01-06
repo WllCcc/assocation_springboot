@@ -37,4 +37,9 @@ public class ActivityApprovalImpl implements ActivityApprovalService {
     public void approvalAssoAct(ActivityApproval actApproval) throws Exception {
         activityApprovalDao.approvalAssoAct(actApproval);
     }
+
+    @Override
+    public void updateActApproval(ActivityApproval actApproval) throws Exception {
+        activityApprovalDao.updateActApproval(actApproval);
+    }
 }
